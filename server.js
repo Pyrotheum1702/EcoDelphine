@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { onCallAPI } = require('./src/server/api/api');
+const { handleCallAPI } = require('./src/server/api/api');
 const { MONGO_DB_URL, PORT } = require('./src/Config/config');
 
 mongoose.connect(MONGO_DB_URL);
@@ -33,7 +33,7 @@ server.listen(PORT, () => {
 });
 
 app.post('/eco-dolphin/api/requestHandle', cors(), async function (req, res) {
-   onCallAPI(req, res)
+   handleCallAPI(req, res)
 })
 
 app.get('/eco-dolphin/api/ping', cors(), function (req, res) {
