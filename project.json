@@ -1,0 +1,8 @@
+{
+  "engine": "cocos2d-html5",
+  "packages": "packages",
+  "version": "2.4.11",
+  "name": "CoinTeleGame",
+  "id": "b288b41a-318f-474c-92f9-7d6db0d6edc5",
+  "isNew": false
+}
