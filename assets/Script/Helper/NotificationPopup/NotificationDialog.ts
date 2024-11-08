@@ -1,6 +1,5 @@
-import Utils from "../../Script/Helper/Utils";
-import AssetContainer from "../../Script/Main/AssetContainer";
-
+import AssetContainer from "../../Controllers/AssetContainer";
+import Utils from "../Utils";
 
 const { ccclass, property } = cc._decorator;
 
