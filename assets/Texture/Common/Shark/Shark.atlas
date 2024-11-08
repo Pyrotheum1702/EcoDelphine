@@ -1,0 +1,20 @@
+
+Shark.png
+size: 1008,614
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Shark_01
+  rotate: false
+  xy: 2, 2
+  size: 997, 302
+  orig: 999, 304
+  offset: 1, 1
+  index: -1
+Shark_02
+  rotate: false
+  xy: 2, 306
+  size: 1004, 306
+  orig: 1004, 306
+  offset: 0, 0
+  index: -1

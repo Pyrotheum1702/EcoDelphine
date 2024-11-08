@@ -1,0 +1,41 @@
+
+Animation_dolphin.png
+size: 1420,723
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Dolphin_01
+  rotate: false
+  xy: 2, 2
+  size: 1416, 452
+  orig: 1416, 471
+  offset: 0, 1
+  index: -1
+Dolphin_02
+  rotate: true
+  xy: 564, 471
+  size: 250, 302
+  orig: 250, 326
+  offset: 0, 0
+  index: -1
+Dolphin_03
+  rotate: false
+  xy: 382, 547
+  size: 180, 174
+  orig: 180, 174
+  offset: 0, 0
+  index: -1
+net_01
+  rotate: false
+  xy: 868, 456
+  size: 475, 265
+  orig: 475, 265
+  offset: 0, 0
+  index: -1
+net_02
+  rotate: true
+  xy: 2, 617
+  size: 104, 378
+  orig: 106, 379
+  offset: 0, 1
+  index: -1

@@ -25,6 +25,10 @@ export default class LoadCtrl extends cc.Component {
 
       this.registerEditBoxEvents(this.usernameEditBox);
       this.registerEditBoxEvents(this.passwordEditBox);
+
+      this.login({
+         username: "Pyro"
+      })
    }
 
    // Helper method to register events for each EditBox

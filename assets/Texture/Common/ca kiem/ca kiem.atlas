@@ -1,0 +1,27 @@
+
+ca kiem.png
+size: 502,604
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 1 copy
+  rotate: false
+  xy: 338, 24
+  size: 152, 277
+  orig: 181, 429
+  offset: 0, 152
+  index: -1
+Layer 1 copy 2
+  rotate: true
+  xy: 338, 303
+  size: 299, 162
+  orig: 712, 538
+  offset: 185, 326
+  index: -1
+Layer 1 copy 3
+  rotate: true
+  xy: 2, 2
+  size: 600, 334
+  orig: 742, 538
+  offset: 0, 26
+  index: -1
