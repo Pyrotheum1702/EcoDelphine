@@ -417,12 +417,13 @@ export default class Utils extends cc.Component {
          xhr.open(method, url, true);
          xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
          xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-         xhr.setRequestHeader("Data-Check-String", GlobalVar.rawInitData);
-         xhr.timeout = 10000
-         if (param != null) xhr.send(JSON.stringify(param));
-         else xhr.send();
-         xhr.onerror = () => { console.log("api call onerror: "); if (onError) onError() }
-         xhr.ontimeout = () => { console.log("api call ontimeout: "); if (onError) onError() }
+         xhr.timeout = 29000
+         try {
+            if (param != null) xhr.send(JSON.stringify(param));
+            else xhr.send();
+            xhr.onerror = () => { console.log("api call onerror: "); if (onError) onError() }
+            xhr.ontimeout = () => { console.log("api call ontimeout: "); if (onError) onError() }
+         } catch (e) { if (onError) onError() }
       } catch (e) { console.log("On callAPI error: ", e); if (onError) onError() }
    }
 

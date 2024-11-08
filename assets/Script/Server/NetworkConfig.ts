@@ -3,7 +3,7 @@ export enum SERVER_CONNECT_TYPE {
    SERVER
 }
 export enum SERVER_URL {
-   LOCAL = "http://localhost:20000",
+   LOCAL = "http://localhost:20000/eco-dolphin/api/requestHandle",
    SERVER = "http://localhost:20000"
 }
 

@@ -96,15 +96,25 @@ export default class LoadCtrl extends cc.Component {
             password: this.usePassword,
          }
       });
+
+      const loginData = {
+         username: this.useUsername
+      }
+
+      this.login(loginData)
    }
 
-   login() {
+   login(loginData) {
       let loading = callLoadingDialog(30, () => { openSceneLoad() })
 
       Utils.callAPI({
          operation: API_OPERATION.LOGIN,
-      }, () => {
-
+         username: loginData.username,
+         // password: this.usePassword,
+      }, (response) => {
+         // loading.endImmediately()
+         this.openSceneLobby()
+         console.log(response);
       })
    }
 
