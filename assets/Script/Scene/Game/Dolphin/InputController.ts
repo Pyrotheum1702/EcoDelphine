@@ -3,6 +3,7 @@ import SoundPlayer from "../../../Helper/SoundPlayer";
 import Utils from "../../../Helper/Utils";
 import GameCtrl from "../Game";
 import Dolphin from "./Dolphin";
+import DolphinController from "./DolphinController";
 
 
 const { ccclass, property } = cc._decorator;
@@ -28,8 +29,8 @@ export default class InputController extends cc.Component {
    isHoldingTouch = false
 
    direction: cc.Vec2 = null
-   angle: Number = null
-   length: Number = null
+   angle: number = null
+   length: number = null
 
    protected onLoad(): void { InputController.ins = this }
    protected onDestroy(): void { InputController.ins = null }
@@ -44,6 +45,49 @@ export default class InputController extends cc.Component {
       this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove.bind(this), this);
       this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd.bind(this), this);
       this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEnd.bind(this), this);
+
+      cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+      cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+
+      // State variables to track if keys are held down
+      this.isSpaceBarHeld = false;
+      this.isShiftHeld = false;
+   }
+
+   isSpaceBarHeld = false;
+   isShiftHeld = false
+
+   onKeyDown(event) {
+      switch (event.keyCode) {
+         case cc.macro.KEY.space:
+            this.isSpaceBarHeld = true;
+            this.onKeyStateChange()
+            break;
+
+         case cc.macro.KEY.shift:
+            this.isShiftHeld = true;
+            this.onKeyStateChange()
+            break;
+      }
+   }
+
+   onKeyUp(event) {
+      switch (event.keyCode) {
+         case cc.macro.KEY.space:
+            this.isShiftHeld = false;
+            this.onKeyStateChange()
+            break;
+
+         case cc.macro.KEY.shift:
+            this.isShiftHeld = false;
+            this.onKeyStateChange()
+            break;
+      }
+   }
+
+   onKeyStateChange() {
+      if (this.isSpaceBarHeld || this.isShiftHeld) Dolphin.ins.boosting = true
+      else Dolphin.ins.boosting = false
    }
 
    private onTouchStart(touch: cc.Event.EventTouch) {
@@ -74,6 +118,7 @@ export default class InputController extends cc.Component {
       if (this.touchesId.length > 1) {
          // SoundPlayer.ins.startSound('Speed Up')
          // Dolphin.ins.snakeHead.boosting = true
+         Dolphin.ins.boosting = true
       }
 
       // Dolphin.ins.onTouchEvent(TOUCH_EVENT_TYPE.START, touch.getLocation())
@@ -83,25 +128,27 @@ export default class InputController extends cc.Component {
       if (!this.controllable) return
 
       if (this.moveTouch && touch.touch.getID() == this.moveTouch.getID()) {
-         let pos = Utils.worldSpaceToLocal(touch.getLocation(), this.touchNodesContainer)
-
+         // let pos = Utils.worldSpaceToLocal(touch.getLocation(), this.touchNodesContainer)
+         let originPos = Utils.getWorldPos(this.touchOrigin)
+         let pos = cc.v2(touch.getLocation()).sub(originPos)
          let range = Math.min(this.maxRange, pos.len())
          let dir = pos.normalize()
 
-         this.direction = dir
-         this.length = range
+         this.direction = cc.v2(dir)
+
+         this.length = range / this.maxRange
          this.angle = Utils.vector2NormalToAngle(dir)
 
          pos = dir.mul(range)
 
-
-         this.direction = cc.v2(0, 0)
-         this.angle = 0
-         this.length = 0
-
+         pos = cc.v2(this.touchOrigin.position).add(pos)
          this.touchNodes[1].setPosition(pos)
 
-         // Dolphin.ins.onTouchEvent(TOUCH_EVENT_TYPE.MOVE, touch.getLocation())
+         // console.log('this.angle', this.angle);
+         // console.log('this.length', this.length);
+         // console.log('this.direction', this.direction);
+
+         DolphinController.ins.onTouchEvent(TOUCH_EVENT_TYPE.MOVE, touch.getLocation())
       }
    }
    private onTouchEnd(touch: cc.Event.EventTouch) {
@@ -130,6 +177,7 @@ export default class InputController extends cc.Component {
 
       if (this.boostTouch && this.boostTouch.getID() == touch.touch.getID()) {
          this.boostTouch = null
+         Dolphin.ins.boosting = false
          this.touchNodes[2].active = false
       }
    }

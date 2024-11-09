@@ -1,4 +1,5 @@
 import { API_OPERATION } from "../../Config/Config";
+import { GlobalVar } from "../../Helper/GlobalVar";
 import { callLoadingDialog } from "../../Helper/Loading/LoadingDialog";
 import Utils from "../../Helper/Utils";
 import { openSceneLoad } from "../SceneManager";
@@ -119,6 +120,7 @@ export default class LoadCtrl extends cc.Component {
          // loading.endImmediately()
          this.openSceneLobby()
          console.log(response);
+         GlobalVar.profile = response.profile
       })
    }
 
