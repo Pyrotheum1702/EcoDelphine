@@ -27,9 +27,9 @@ export default class LoadCtrl extends cc.Component {
       this.registerEditBoxEvents(this.usernameEditBox);
       this.registerEditBoxEvents(this.passwordEditBox);
 
-      this.login({
-         username: "Pyro"
-      })
+      // this.login({
+      //    username: "Pyro"
+      // })
    }
 
    // Helper method to register events for each EditBox
@@ -85,16 +85,17 @@ export default class LoadCtrl extends cc.Component {
    }
 
    onUsernameChange(string) {
-      console.log("onUsernameChange", string);
+      // console.log("onUsernameChange", string);
       this.useUsername = string
    }
 
    onPasswordChange(string) {
-      console.log("onPasswordChange", string);
+      // console.log("onPasswordChange", string);
       this.usePassword = string
    }
 
    onClickContinue() {
+      if (this.useUsername.length <= 1) return
       console.log({
          login: {
             username: this.useUsername,

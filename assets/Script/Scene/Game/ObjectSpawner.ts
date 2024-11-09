@@ -45,10 +45,10 @@ export default class ObjectSpawner extends cc.Component {
    }
 
    spawnObjects() {
-      console.log('spawnObjects');
+      // console.log('spawnObjects');
 
       const spawnTrash = () => {
-         console.log('spawnTrash');
+         // console.log('spawnTrash');
 
          this.countAfterSpawnShark++
          let spawnY = (Math.random() * this.spawnHeightRange) * Utils.getOneOrMinusOne()
@@ -72,7 +72,7 @@ export default class ObjectSpawner extends cc.Component {
       }
 
       const spawnShark = () => {
-         console.log('spawnShark');
+         // console.log('spawnShark');
 
          this.countAfterSpawnShark = 0
          let spawnY = (Math.random() * this.spawnHeightRange) * Utils.getOneOrMinusOne()

@@ -7,6 +7,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Dolphin extends cc.Component {
    static ins: Dolphin = null
+   @property(cc.Node) suckHole: cc.Node = null
    @property angleChangeSpeed: number = 0
    @property speedUpMultiplier: number = 1.5
    @property startTraverseSpeed: number = 0
@@ -25,9 +26,11 @@ export default class Dolphin extends cc.Component {
    yClamp = 325
    // ===
    animationName = ""
+   scaleY = 1
 
    protected onLoad(): void {
       Dolphin.ins = this
+      this.scaleY = this.node.scaleY
       cc.director.preloadScene('1.Lobby')
    }
 
@@ -40,7 +43,7 @@ export default class Dolphin extends cc.Component {
       this.node.setPosition(newPos)
       this.node.angle = this.headAngle
       // console.log(this.node.angle);
-      this.node.scaleY = (Math.abs(this.node.angle) >= 90) ? -1 : 1
+      this.node.scaleY = (Math.abs(this.node.angle) >= 90) ? (-1 * this.scaleY) : (1 * this.scaleY)
 
       // console.log(this.node.x.toFixed(2), this.node.y.toFixed(2));
       if (this.node.x > this.xClamp) this.node.x = this.xClamp
@@ -54,9 +57,9 @@ export default class Dolphin extends cc.Component {
          // console.log('this.traverseSpeed', this.traverseSpeed);
 
          if (this.traverseSpeed > 0) {
-            if (this.animationName !== "Swim") {
-               this.animationName = "Swim";
-               this.skeleton.setAnimation(0, "Swim", true);  // Set on track 0
+            if (this.animationName !== "Swing") {
+               this.animationName = "Swing";
+               this.skeleton.setAnimation(0, "Swing", true);  // Set on track 0
             }
          } else {
             if (this.animationName !== "Idle") {
@@ -72,12 +75,13 @@ export default class Dolphin extends cc.Component {
 
    onCollisionEnter(other: cc.Collider, self: cc.Collider) {
       if (!this.alive) return
+      if (GameCtrl.ins.isGameOver) return
       console.log("Collision detected!");
 
       let spawnObject = other.getComponent(SpawnObject)
       switch (spawnObject.objectType) {
          case SpawnObjectType.TRASH: {
-            other.getComponent(Trash).collect()
+            other.getComponent(Trash).collect(this.suckHole)
             break;
          }
          case SpawnObjectType.SHARK: {

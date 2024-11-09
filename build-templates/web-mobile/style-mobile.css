@@ -91,7 +91,7 @@ p.footer {
   background-size: 500px;
 }
 
-/* .progress-bar {
+  .progress-bar {
     position: absolute;
     left: 27.5%;
     top: 80%;
@@ -108,17 +108,17 @@ p.footer {
     border-radius: 3px;
     transition: width .4s ease-in-out;
     background-color: #3dc5de;
-} */
+}  
 
-/* .stripes span {
+ .stripes span {
     background-size: 30px 30px;
     background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
                         transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%,
                         transparent 75%, transparent);            
     
     animation: animate-stripes 1s linear infinite;             
-} */
+} 
 
-/* @keyframes animate-stripes {
+ @keyframes animate-stripes {
     0% {background-position: 0 0;} 100% {background-position: 60px 0;}
-} */
+} 

@@ -66,13 +66,14 @@ export default class GameCtrl extends cc.Component {
 
       }
 
+      cc.tween(Dolphin.ins.node).to(0.77, { opacity: 0 }, { easing: 'sineIn' }).start()
+
       cc.tween(this.spawnObjectContainer).to(1, { opacity: 0 }, { easing: "sineIn" }).call(() => {
          this.spawnObjectContainer.destroy()
          InputController.ins.touchNodes.forEach(node => { node.opacity = 0 })
 
-         let loading = callLoadingDialog(30, () => {
-            openSceneLoad()
-         })
+         let loading = callLoadingDialog(30, () => { openSceneLoad() })
+
          Utils.callAPI({
             operation: API_OPERATION.REPORT_GAME_RESULT,
             username: GlobalVar.profile.username,
@@ -99,7 +100,13 @@ export default class GameCtrl extends cc.Component {
 
    }
 
+   onClickPlayAgain() {
+      let loading = callLoadingDialog(10000)
+      cc.director.loadScene('2.Game')
+   }
+
    openSceneLobby() {
+      let loading = callLoadingDialog(10000)
       cc.director.loadScene('1.Lobby')
    }
 }

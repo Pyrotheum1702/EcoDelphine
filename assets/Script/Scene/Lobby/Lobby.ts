@@ -14,7 +14,7 @@ export default class LobbyCtrl extends cc.Component {
       cc.director.preloadScene('2.Game')
 
       Utils.tweenLb(this.balanceLb, 0, GlobalVar.profile.token, 0.777, 'sineIn')
-      Utils.tweenLb(this.trashCollectedLb, 0, GlobalVar.profile.score, 0.777, 'sineIn')
+      Utils.tweenLb(this.trashCollectedLb, 0, GlobalVar.profile.score, 0.777, 'sineIn', null, '', '', Utils.formatNumberWithCommas)
    }
 
    protected onDestroy(): void { LobbyCtrl.ins = null }
