@@ -3,35 +3,29 @@ const models = require('../db/models');
 const { getProfile } = require('../api/profile');
 
 let updateSchedule = null
-const updateScheduleTime = 1000 * 60 * 10
+const updateScheduleTime = 1000 * 60 * 0.25
 
 function startLeaderBoardUpdateSchedule() {
    console.log('startLeaderBoardUpdateSchedule.');
 
    updateLeaderBoard()
    if (updateSchedule) clearInterval(updateSchedule)
-   updateSchedule = setInterval(() => {
-      updateLeaderBoard()
-   }, updateScheduleTime);
+   updateSchedule = setInterval(() => { updateLeaderBoard() }, updateScheduleTime);
 }
 
 async function updateLeaderBoard() {
    try {
-      const scores = await models.WeeklyScore.aggregate([{ $sort: { point: -1 } }]).exec();
+      const scores = await models.Profile.aggregate([{ $sort: { point: -1 } }]).limit(50).exec();
       let entireLeaderBoard = {};
       let top100LeaderBoard = [];
 
       for (let [index, score] of scores.entries()) {
-         await delay(5);
-
-         let key = score.uuid;
-         let profile = await getProfile(key, false);
+         let key = score.username;
+         let profile = await getProfile(key);
 
          entireLeaderBoard[key] = {
-            name: profile.firstName + ' ' + profile.lastName,
-            userName: profile.userName,
-            avatarUrl: profile.avatarUrl,
-            score: score.point,
+            name: profile.username,
+            score: profile.score,
             rank: index + 1
          };
 
@@ -40,6 +34,8 @@ async function updateLeaderBoard() {
 
       GLOBAL.entireLeaderBoard = entireLeaderBoard
       GLOBAL.top100LeaderBoard = top100LeaderBoard
+      // console.log('GLOBAL.top100LeaderBoard\n', GLOBAL.top100LeaderBoard);
+
    } catch (err) { console.error('updateLeaderBoard error:', err); throw err; }
 }
 

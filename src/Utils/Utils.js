@@ -25,6 +25,14 @@ exports.getEpochDay = function getEpochDay() {
    const daysSinceEpoch = Math.floor(differenceInMilliseconds / millisecondsInADay);
    return daysSinceEpoch;
 }
+exports.getRandomID = function getRandomID(length = 16) {
+   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   let id = '';
+   for (let i = 0; i < length; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+   }
+   return id;
+}
 
 exports.arraysGetMatches = function arraysGetMatches(arr1, arr2) {
    return arr1.filter(value => arr2.includes(value));

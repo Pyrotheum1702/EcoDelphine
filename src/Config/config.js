@@ -3,4 +3,5 @@ exports.PORT = 20000;
 
 exports.CONFIG = {
    gameName: 'EcoDolphin',
+   pointToTokenRatio: 0.1,
 }

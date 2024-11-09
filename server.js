@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const { handleCallAPI } = require('./src/server/api/api');
 const { MONGO_DB_URL, PORT } = require('./src/Config/config');
+const { startLeaderBoardUpdateSchedule } = require('./src/server/leaderboard/leaderboard');
 
 mongoose.connect(MONGO_DB_URL);
 
@@ -56,6 +57,7 @@ async function connectToMongoDB() {
 
 async function startServer() {
    await connectToMongoDB();
+   await startLeaderBoardUpdateSchedule()
 }
 
 startServer(); 
