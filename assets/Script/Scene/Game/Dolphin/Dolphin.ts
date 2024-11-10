@@ -1,3 +1,4 @@
+import SoundPlayer from "../../../Helper/SoundPlayer";
 import GameCtrl from "../Game";
 import SpawnObject, { SpawnObjectType } from "../SpawnObject";
 import Trash from "../Trash";
@@ -32,6 +33,8 @@ export default class Dolphin extends cc.Component {
       Dolphin.ins = this
       this.scaleY = this.node.scaleY
       cc.director.preloadScene('1.Lobby')
+      console.log('this.skeleton', this.skeleton);
+
    }
 
    moveForward(dt) {
@@ -76,7 +79,7 @@ export default class Dolphin extends cc.Component {
    onCollisionEnter(other: cc.Collider, self: cc.Collider) {
       if (!this.alive) return
       if (GameCtrl.ins.isGameOver) return
-      console.log("Collision detected!");
+      // console.log("Collision detected!");
 
       let spawnObject = other.getComponent(SpawnObject)
       switch (spawnObject.objectType) {
@@ -88,6 +91,8 @@ export default class Dolphin extends cc.Component {
             let s = spawnObject.getComponent(sp.Skeleton)
             s.setAnimation(0, "Attack", false)
             s.addAnimation(0, "animation", true)
+            SoundPlayer.ins.play("Break")
+            SoundPlayer.ins.play("GameOver")
             this.onDeath()
             break;
          }

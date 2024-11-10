@@ -1,6 +1,7 @@
 import { API_OPERATION } from "../../Config/Config";
 import { GlobalVar } from "../../Helper/GlobalVar";
 import { callLoadingDialog } from "../../Helper/Loading/LoadingDialog";
+import SoundPlayer from "../../Helper/SoundPlayer";
 import Utils from "../../Helper/Utils";
 import { openSceneLoad } from "../SceneManager";
 import Dolphin from "./Dolphin/Dolphin";
@@ -11,12 +12,15 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class GameCtrl extends cc.Component {
    static ins: GameCtrl = null
+   @property(cc.Node) ui: cc.Node = null
    @property(cc.Node) spawnObjectContainer: cc.Node = null
    @property(cc.Node) gameOverPopup: cc.Node = null
+   @property(cc.Node) gameOverRewardIcon: cc.Node = null
    @property(cc.Node) scoreResultLayout: cc.Node = null
    @property(cc.Node) tokenResultLayout: cc.Node = null
    @property(cc.Label) resultScoreLb: cc.Label = null
    @property(cc.Label) resultTokenLb: cc.Label = null
+   @property(cc.Label) gameOverTitle: cc.Label = null
    @property(cc.Label) pointLb: cc.Label = null
    @property(cc.Label) timeLeftsLb: cc.Label = null
 
@@ -30,6 +34,7 @@ export default class GameCtrl extends cc.Component {
 
    protected onLoad(): void {
       GameCtrl.ins = this
+      SoundPlayer.ins.play("Swoosh")
       this.gameOverPopup.active = false
       cc.director.preloadScene('1.Lobby')
 
@@ -37,6 +42,9 @@ export default class GameCtrl extends cc.Component {
       colManager.enabled = true
       // colManager.enabledDebugDraw = true
       this.sessionsStats.timeLeft = 45
+      this.scheduleOnce(() => {
+         SoundPlayer.ins.play("Btn1")
+      })
       this.scheduleOnce(() => { this.gameStarted = true }, 2)
    }
 
@@ -62,11 +70,13 @@ export default class GameCtrl extends cc.Component {
       if (this.isGameOver) return
       this.isGameOver = true
 
-      if (Dolphin.ins.alive) {
-
-      }
+      if (die) {
+         this.gameOverRewardIcon.active = false
+         this.gameOverTitle.string = "GameOver!"
+      } else this.gameOverTitle.string = "Your reward!"
 
       cc.tween(Dolphin.ins.node).to(0.77, { opacity: 0 }, { easing: 'sineIn' }).start()
+      cc.tween(this.ui).to(0.55, { opacity: 0 }, { easing: "sineIn" }).start()
 
       cc.tween(this.spawnObjectContainer).to(1, { opacity: 0 }, { easing: "sineIn" }).call(() => {
          this.spawnObjectContainer.destroy()
@@ -89,7 +99,9 @@ export default class GameCtrl extends cc.Component {
 
             this.scoreResultLayout.active = true
             this.scheduleOnce(() => {
+               SoundPlayer.ins.play("Collect")
                Utils.tweenLb(this.resultScoreLb, 0, result.score, 0.777, 'sineIn', () => {
+                  SoundPlayer.ins.play("Collect")
                   this.tokenResultLayout.active = true
                   Utils.tweenLb(this.resultTokenLb, 0, result.token, 0.777, 'sineIn', null, ': ')
                }, ': ')
@@ -101,11 +113,13 @@ export default class GameCtrl extends cc.Component {
    }
 
    onClickPlayAgain() {
+      SoundPlayer.ins.play("Btn")
       let loading = callLoadingDialog(10000)
       cc.director.loadScene('2.Game')
    }
 
    openSceneLobby() {
+      SoundPlayer.ins.play("Btn")
       let loading = callLoadingDialog(10000)
       cc.director.loadScene('1.Lobby')
    }

@@ -1,3 +1,4 @@
+import SoundPlayer from "../../Helper/SoundPlayer";
 import Utils from "../../Helper/Utils";
 import GameCtrl from "./Game";
 import SpawnObject from "./SpawnObject";
@@ -21,6 +22,7 @@ export default class Trash extends SpawnObject {
       this.timeLeft = 0.66
       this.targetFollow = target
       cc.tween(this.node).to(0.66, { opacity: 0, scale: this.node.scale * 0.3 }, { easing: "sineIn" }).call(() => {
+         SoundPlayer.ins.play("Eat")
          GameCtrl.ins.addPoint(1)
          this.node.destroy()
       }).start()

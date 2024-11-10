@@ -1,4 +1,6 @@
 import { GlobalVar } from "../../Helper/GlobalVar";
+import { callLoadingDialog } from "../../Helper/Loading/LoadingDialog";
+import SoundPlayer from "../../Helper/SoundPlayer";
 import Utils from "../../Helper/Utils";
 
 const { ccclass, property } = cc._decorator;
@@ -12,6 +14,7 @@ export default class LobbyCtrl extends cc.Component {
    protected onLoad(): void {
       LobbyCtrl.ins = this
       cc.director.preloadScene('2.Game')
+      SoundPlayer.ins.play("Lobby")
 
       Utils.tweenLb(this.balanceLb, 0, GlobalVar.profile.token, 0.777, 'sineIn')
       Utils.tweenLb(this.trashCollectedLb, 0, GlobalVar.profile.score, 0.777, 'sineIn', null, '', '', Utils.formatNumberWithCommas)
@@ -20,6 +23,8 @@ export default class LobbyCtrl extends cc.Component {
    protected onDestroy(): void { LobbyCtrl.ins = null }
 
    openSceneGame() {
+      let loading = callLoadingDialog(60)
+      SoundPlayer.ins.play("Btn")
       cc.director.loadScene('2.Game')
    }
 }

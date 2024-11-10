@@ -1,6 +1,7 @@
 import { API_OPERATION } from "../../Config/Config";
 import { GlobalVar } from "../../Helper/GlobalVar";
 import { callLoadingDialog } from "../../Helper/Loading/LoadingDialog";
+import SoundPlayer from "../../Helper/SoundPlayer";
 import Utils from "../../Helper/Utils";
 import { openSceneLoad } from "../SceneManager";
 
@@ -96,6 +97,8 @@ export default class LoadCtrl extends cc.Component {
 
    onClickContinue() {
       if (this.useUsername.length <= 1) return
+      SoundPlayer.ins.play("Btn")
+
       console.log({
          login: {
             username: this.useUsername,
