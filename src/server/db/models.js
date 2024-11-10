@@ -8,4 +8,5 @@ exports.Profile = mongoose.model('Profile', new mongoose.Schema({
    coin: { type: Number, default: 0, require: true },
    token: { type: Number, default: 0, require: true },
    score: { type: Number, default: 0, require: true },
+   mapPieces: { type: Object, default: {}, require: true },
 }));

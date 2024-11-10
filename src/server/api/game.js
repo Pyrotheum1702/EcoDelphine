@@ -14,11 +14,23 @@ async function apiReportGameResult(req, res) {
 
    if (!profile) { return res.status(404).send({ message: "profile not found!" }) }
 
+   for (let i = 0; i < mapPieces.length; i++) {
+      const piece = mapPieces[i];
+      if (!profile.mapPieces[piece.toString()]) profile.mapPieces[piece.toString()] = 0
+      profile.mapPieces[piece.toString()] = profile.mapPieces[piece.toString()] + 1
+   }
+
    const tokenAmount = Math.round(score * CONFIG.pointToTokenRatio)
 
    profile.score += score
    profile.token += tokenAmount
-   await models.Profile.findOneAndUpdate({ username: username }, { $inc: { token: tokenAmount, score: score } })
+   await models.Profile.findOneAndUpdate({ username: username }, {
+      $inc: {
+         token: tokenAmount,
+         score: score,
+         mapPieces: profile.mapPieces
+      }
+   })
 
    console.log('send', profile);
 
