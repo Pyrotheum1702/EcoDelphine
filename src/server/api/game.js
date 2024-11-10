@@ -1,5 +1,7 @@
 const { CONFIG } = require('../../Config/config')
+const { GLOBAL } = require('../../Global/globalVar')
 const models = require('../db/models')
+const leaderboard = require('../leaderboard/leaderboard')
 const { getProfile } = require('./profile')
 
 async function apiReportGameResult(req, res) {
@@ -29,6 +31,12 @@ async function apiReportGameResult(req, res) {
    })
 }
 
+async function apiGetLeaderBoard(req, res) {
+   console.log('send', GLOBAL.top100LeaderBoard);
+   res.status(200).send({ leaderboard: GLOBAL.top100LeaderBoard })
+}
+
 module.exports = {
    apiReportGameResult,
+   apiGetLeaderBoard
 }

@@ -15,7 +15,7 @@ function startLeaderBoardUpdateSchedule() {
 
 async function updateLeaderBoard() {
    try {
-      const scores = await models.Profile.aggregate([{ $sort: { point: -1 } }]).limit(50).exec();
+      const scores = await models.Profile.aggregate([{ $sort: { token: -1 } }]).limit(50).exec();
       let entireLeaderBoard = {};
       let top100LeaderBoard = [];
 
@@ -25,7 +25,7 @@ async function updateLeaderBoard() {
 
          entireLeaderBoard[key] = {
             name: profile.username,
-            score: profile.score,
+            score: profile.token,
             rank: index + 1
          };
 
@@ -34,7 +34,7 @@ async function updateLeaderBoard() {
 
       GLOBAL.entireLeaderBoard = entireLeaderBoard
       GLOBAL.top100LeaderBoard = top100LeaderBoard
-      // console.log('GLOBAL.top100LeaderBoard\n', GLOBAL.top100LeaderBoard);
+      console.log('GLOBAL.top100LeaderBoard\n', GLOBAL.top100LeaderBoard);
 
    } catch (err) { console.error('updateLeaderBoard error:', err); throw err; }
 }
