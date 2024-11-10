@@ -9,17 +9,18 @@ async function apiReportGameResult(req, res) {
    const username = requestBody.username
    const score = requestBody.score
    const mapPieces = requestBody.mapPieces
+   console.log({ requestBody });
+
 
    let profile = await getProfile(username)
 
    if (!profile) { return res.status(404).send({ message: "profile not found!" }) }
 
    if (mapPieces) {
-      for (let i = 0; i < mapPieces.length; i++) {
-         const piece = mapPieces[i];
-         if (!profile.mapPieces[piece.toString()]) profile.mapPieces[piece.toString()] = 0
-         profile.mapPieces[piece.toString()] = profile.mapPieces[piece.toString()] + 1
-      }
+      Object.keys(mapPieces).forEach(key => {
+         if (profile.mapPieces[key] == null) profile.mapPieces[key] = 0
+         profile.mapPieces[key] = profile.mapPieces[key] + mapPieces[key]
+      });
    }
 
    const tokenAmount = Math.round(score * CONFIG.pointToTokenRatio)
